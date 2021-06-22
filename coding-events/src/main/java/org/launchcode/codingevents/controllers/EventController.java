@@ -1,6 +1,7 @@
 package org.launchcode.codingevents.controllers;
 
 
+import org.launchcode.codingevents.models.Event;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,69 +15,28 @@ import java.util.List;
 @Controller
 @RequestMapping("events")
 public class EventController {
-//
-    //this static field belongs to the class and all methods, just not an instance of the class
-//    private static List<String> events = new ArrayList<>();
-//
-//        //created a static list for example.
-//    @GetMapping
-//    public String displayAllEvents(Model model) {
-//            //commented previous list out to modify code in order to display the user input
-////        List<String> events = new ArrayList<>();
-////        events.add("Code With Pride");
-////        events.add("Strange Loop");
-////        events.add("Apple WWDC");
-////        events.add("SpringOne Platform");
-////        model.addAttribute("events", events);
-//        model.addAttribute("events", events);
-//        return "events/index";
-//    }
-//
-//    //Create new handler to allow user to input info
-//    //this method lives at /events/create
-//    @GetMapping("create")
-//    public String renderCreateEventForm(){
-//        return "events/create";
-//    }
-//
-//    //lives at /events/create  -- it is okay to have same path because they handle different types of request
-//    @PostMapping("create")
-//    public String createEvent(@RequestParam String eventName) {
-//        events.add(eventName);
-//        return "redirect:";
-//    }
 
+    private static List<Event> events = new ArrayList<>();
 
-    //Create a Model Class Video:
-
-
-    private static List<String> events = new ArrayList<>();
-
-    //created a static list for example.
     @GetMapping
     public String displayAllEvents(Model model) {
-        //commented previous list out to modify code in order to display the user input
-//        List<String> events = new ArrayList<>();
-//        events.add("Code With Pride");
-//        events.add("Strange Loop");
-//        events.add("Apple WWDC");
-//        events.add("SpringOne Platform");
-//        model.addAttribute("events", events);
+        model.addAttribute("title", "All Events");
         model.addAttribute("events", events);
         return "events/index";
     }
 
-    //Create new handler to allow user to input info
-    //this method lives at /events/create
+
     @GetMapping("create")
-    public String renderCreateEventForm(){
+    public String displayCreateEventForm(Model model){
+        model.addAttribute("title", "Create Event");
         return "events/create";
     }
 
     //lives at /events/create  -- it is okay to have same path because they handle different types of request
     @PostMapping("create")
-    public String createEvent(@RequestParam String eventName) {
-        events.add(eventName);
+    public String processCreateEventForm(@RequestParam String eventName,
+                                         @RequestParam String eventDescription) {
+        events.add(new Event(eventName, eventDescription));
         return "redirect:";
     }
 }
