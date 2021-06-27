@@ -30,10 +30,6 @@ public class Event {
         this.description = description;
     }
 
-    public int getId() {
-        return id;
-    }
-
     @Override
     public String toString() {
         return name;
